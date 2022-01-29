@@ -41,7 +41,7 @@ public:
 	PreviewOperation(const ColorManagedViewSettings *viewSettings, const ColorManagedDisplaySettings *displaySettings);
 	void verifyPreview(bNodeInstanceHash *previews, bNodeInstanceKey key);
 
-	bool isOutputOperation(bool /*rendering*/) const { return !G.background; }
+	bool isOutputOperation(bool /*rendering*/) const { return true; }
 	void initExecution();
 	void deinitExecution();
 	CompositorPriority getRenderPriority() const;
