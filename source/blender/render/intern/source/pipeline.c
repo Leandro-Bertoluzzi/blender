@@ -561,10 +561,14 @@ void RE_InitRenderCB(Render *re)
 	re->current_scene_update = current_scene_nothing;
 	re->progress = float_nothing;
 	re->test_break = default_break;
+	/* Commented to avoid console output */
+	/*
 	if (G.background)
 		re->stats_draw = stats_background;
 	else
 		re->stats_draw = stats_nothing;
+	*/
+	re->stats_draw = stats_nothing;
 	/* clear callback handles */
 	re->dih = re->dch = re->duh = re->sdh = re->prh = re->tbh = NULL;
 }
