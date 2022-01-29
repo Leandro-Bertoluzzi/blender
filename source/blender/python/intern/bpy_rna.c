@@ -3086,6 +3086,23 @@ static int pyrna_prop_array_ass_subscript(BPy_PropertyArrayRNA *self, PyObject *
 	return ret;
 }
 
+// New method to return an array of properties as a buffer -> faster to convert into NumPy array!!
+static PyObject *pyrna_prop_array_as_bytes(BPy_PropertyRNA *self) 
+{ 
+	Py_ssize_t len = (Py_ssize_t)pyrna_prop_array_length(self); 
+	int itemsize = 4; 
+	int length = itemsize * len; 
+	PyObject *pybytes = PyBytes_FromStringAndSize(NULL, length); 
+	RNA_property_float_get_array(&self->ptr, self->prop, PyBytes_AsString(pybytes)); 
+	return pybytes; 
+} 
+// Macro with description of the new method
+PyDoc_STRVAR(pyrna_prop_array_as_bytes_doc, 
+".. method:: as_bytes()\n" 
+"\n" 
+" Returns the raw data of the array\n" 
+);
+
 /* for slice only */
 static PyMappingMethods pyrna_prop_array_as_mapping = {
 	(lenfunc) pyrna_prop_array_length,               /* mp_length */
@@ -5194,6 +5211,7 @@ static struct PyMethodDef pyrna_prop_methods[] = {
 };
 
 static struct PyMethodDef pyrna_prop_array_methods[] = {
+	{"as_bytes", (PyCFunction)pyrna_prop_array_as_bytes, METH_NOARGS, pyrna_prop_array_as_bytes_doc}, 
 	{NULL, NULL, 0, NULL}
 };
 
